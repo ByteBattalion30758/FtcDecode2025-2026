@@ -40,6 +40,8 @@ public class AutoStateFactory extends LinearOpMode {
         Up4, Down4
     }
 
+    //Byte Batallion
+
     enum AutoStates{
         AutoWait,
         MoveToShootPreload,
