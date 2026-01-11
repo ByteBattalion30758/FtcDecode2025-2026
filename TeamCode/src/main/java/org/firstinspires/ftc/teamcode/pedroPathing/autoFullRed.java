@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 @Configurable
-@Autonomous(name = "Basic Auto Red", group = "Autonomous")
+@Autonomous(name = "autoFullRed", group = "Autonomous")
 public class autoFullRed extends LinearOpMode {
 
 
@@ -36,8 +36,6 @@ public class autoFullRed extends LinearOpMode {
     double backRightPower = 0;
 
 
-
-
     // Base speed for servos
     final double BASE_SERVOSPEED = 0.01;
 
@@ -56,17 +54,24 @@ public class autoFullRed extends LinearOpMode {
         frontRight.setDirection(DcMotor.Direction.REVERSE);
 
 
-        flywheel1= hardwareMap.get(DcMotor.class, "shooter");
+        flywheel1 = hardwareMap.get(DcMotor.class, "shooter");
         transfer = hardwareMap.get(DcMotor.class, "transfer");
         Intake = hardwareMap.get(DcMotor.class, "intake");
         Bootwheels = hardwareMap.get(DcMotor.class, "transferBootwheels");
+        Intake.setDirection(DcMotorSimple.Direction.REVERSE);
+        transfer.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         kicker = hardwareMap.get(Servo.class, "kicker");
 
+        double shooterPower = 0.7;
+        double intakePower = 1;
+        double transferPower = 1;
+
+        double transferPowerBootWheels = 1;
+
         double kickerDownPos = 0.7;
         double kickerUpPos = 0.4;
-
 
 
         telemetry.addData("Status", "Initialized");
@@ -77,10 +82,10 @@ public class autoFullRed extends LinearOpMode {
 
 
         if (opModeIsActive()) {
-            Intake.setPower(0);
-            flywheel1.setPower(0);
-            transfer.setPower(0);
-            Bootwheels.setPower(0);
+            Intake.setPower(intakePower);
+            flywheel1.setPower(shooterPower);
+            transfer.setPower(transferPower);
+            Bootwheels.setPower(transferPowerBootWheels);
             kicker.setPosition(kickerDownPos);
             backLeft.setDirection(DcMotor.Direction.REVERSE);
             backRight.setDirection(DcMotor.Direction.FORWARD);
@@ -91,22 +96,87 @@ public class autoFullRed extends LinearOpMode {
             backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+            kicker.setPosition(kickerDownPos);
 
             ElapsedTime time = new ElapsedTime();
-            moveBot(-0.3, 0, 0.2);
+            moveBot(0.7, 0, 0);
+            time.reset();
+            while (opModeIsActive() && time.milliseconds() < 1350) {
+            }
+            moveBot(0, 0, 0);
+
+            ElapsedTime time1 = new ElapsedTime();
+            moveBot(0, -0.3, 0);
+            time.reset();
+            while (opModeIsActive() && time.milliseconds() < 400) {
+            }
+            moveBot(0, 0, 0);
+
+            ElapsedTime time2 = new ElapsedTime();
+            moveBot(0, 0, 0);
             time.reset();
             while (opModeIsActive() && time.milliseconds() < 3000) {
             }
-            moveBot(0,0,0);
+            moveBot(0, 0, 0);
 
-            ElapsedTime time7 = new ElapsedTime();
+            //Ball 1
             kicker.setPosition(kickerUpPos);
-            Intake.setPower(-1);
             time.reset();
-            while (opModeIsActive() && time.milliseconds() < 6400){
+            while (opModeIsActive() && time.milliseconds() < 500) {
+                idle();
             }
-            kicker.setPosition(0);
-            Intake.setPower(0);
+
+            kicker.setPosition(kickerDownPos);
+            time.reset();
+            while (opModeIsActive() && time.milliseconds() < 200) {
+                idle();
+            }
+
+            //Ball 2
+            kicker.setPosition(kickerUpPos);
+            time.reset();
+            while (opModeIsActive() && time.milliseconds() < 500) {
+                idle();
+            }
+
+            kicker.setPosition(kickerDownPos);
+            time.reset();
+            while (opModeIsActive() && time.milliseconds() < 200) {
+                idle();
+            }
+
+            //Ball 3
+            kicker.setPosition(kickerUpPos);
+            time.reset();
+            while (opModeIsActive() && time.milliseconds() < 500) {
+                idle();
+            }
+
+            kicker.setPosition(kickerDownPos);
+            time.reset();
+            while (opModeIsActive() && time.milliseconds() < 200) {
+                idle();
+            }
+
+            //Ball backup launch
+            kicker.setPosition(kickerUpPos);
+            time.reset();
+            while (opModeIsActive() && time.milliseconds() < 500) {
+                idle();
+            }
+
+            kicker.setPosition(kickerDownPos);
+            time.reset();
+            while (opModeIsActive() && time.milliseconds() < 200) {
+                idle();
+            }
+
+            //ElapsedTime time3 = new ElapsedTime();
+            moveBot(-0.2, 0.2, 0);
+            time.reset();
+            while (opModeIsActive() && time.milliseconds() < 1500) {
+            }
+            moveBot(0, 0, 0);
         }
     }
 
@@ -119,13 +189,3 @@ public class autoFullRed extends LinearOpMode {
         backRight.setPower(forwardPower - turnPower - strafePower);
     }
 }
-
-
-
-
-
-
-
-
-
-

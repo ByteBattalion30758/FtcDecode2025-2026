@@ -71,22 +71,22 @@ public class Teleop extends LinearOpMode {
                     kickerServo.setPosition(kickerUpPos);
                     kick=false;
                 })
-                .transitionTimed(0.4)
+                .transitionTimed(0.15)
                 .state(KickerStates.Down1)
                 .onEnter(()->kickerServo.setPosition(kickerDownPos))
-                .transitionTimed(0.4)
+                .transitionTimed(0.15)
                 .state(KickerStates.Up2)
                 .onEnter(()->kickerServo.setPosition(kickerUpPos))
-                .transitionTimed(0.4)
+                .transitionTimed(0.15)
                 .state(KickerStates.Down2)
                 .onEnter(()->kickerServo.setPosition(kickerDownPos))
-                .transitionTimed(0.4)
+                .transitionTimed(0.15)
                 .state(KickerStates.Up3)
                 .onEnter(()->kickerServo.setPosition(kickerUpPos))
-                .transitionTimed(0.4)
+                .transitionTimed(0.15)
                 .state(KickerStates.Down3)
                 .onEnter(()->kickerServo.setPosition(kickerDownPos))
-                .transitionTimed(0.4, KickerStates.IDLE)
+                .transitionTimed(0.15, KickerStates.IDLE)
                 .build();
 
 

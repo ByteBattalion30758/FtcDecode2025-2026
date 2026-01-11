@@ -118,12 +118,3 @@ public class autoRednoPedroPathing extends LinearOpMode {
         backRight.setPower(forwardPower - turnPower - strafePower);
     }
 }
-
-
-
-
-
-
-
-
-
