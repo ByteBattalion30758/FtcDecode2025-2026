@@ -3,7 +3,10 @@ package org.firstinspires.ftc.teamcode;
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.bylazar.telemetry.JoinedTelemetry;
+import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.sfdev.assembly.state.StateMachine;
@@ -14,7 +17,7 @@ import com.sfdev.assembly.state.StateMachineBuilder;
 public class Teleop extends LinearOpMode {
     public DcMotor frontLeft, frontRight, backLeft, backRight;
     public Servo kickerServo;
-    public DcMotor shooter, intake, transferMotor, transferBootWheels;
+    public DcMotorEx shooter, intake, transferMotor, transferBootWheels;
 
 
     public static double shooterPower = 0.65;
@@ -40,6 +43,7 @@ public class Teleop extends LinearOpMode {
     boolean end = false;
 
     public void runOpMode() {
+        telemetry = new JoinedTelemetry(telemetry, PanelsTelemetry.INSTANCE.getFtcTelemetry());
         frontLeft = hardwareMap.get(DcMotor.class, "frontleft");
         frontRight = hardwareMap.get(DcMotor.class, "frontright");
         backLeft = hardwareMap.get(DcMotor.class, "backleft");
@@ -54,13 +58,13 @@ public class Teleop extends LinearOpMode {
         backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
-        shooter = hardwareMap.get(DcMotor.class, "shooter");
-        transferMotor = hardwareMap.get(DcMotor.class, "transfer");
-        intake = hardwareMap.get(DcMotor.class, "intake");
+        shooter = hardwareMap.get(DcMotorEx.class, "shooter");
+        transferMotor = hardwareMap.get(DcMotorEx.class, "transfer");
+        intake = hardwareMap.get(DcMotorEx.class, "intake");
         intake.setDirection(DcMotorSimple.Direction.REVERSE);
         transferMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         kickerServo = hardwareMap.get(Servo.class, "kicker");
-        transferBootWheels = hardwareMap.get(DcMotor.class,"transferBootwheels");
+        transferBootWheels = hardwareMap.get(DcMotorEx.class,"transferBootwheels");
 
         StateMachine kickerMachine = new StateMachineBuilder()
                 .state(KickerStates.IDLE)
@@ -71,22 +75,22 @@ public class Teleop extends LinearOpMode {
                     kickerServo.setPosition(kickerUpPos);
                     kick=false;
                 })
-                .transitionTimed(0.15)
+                .transitionTimed(0.25)
                 .state(KickerStates.Down1)
                 .onEnter(()->kickerServo.setPosition(kickerDownPos))
-                .transitionTimed(0.15)
+                .transitionTimed(0.2)
                 .state(KickerStates.Up2)
                 .onEnter(()->kickerServo.setPosition(kickerUpPos))
-                .transitionTimed(0.15)
+                .transitionTimed(0.2)
                 .state(KickerStates.Down2)
                 .onEnter(()->kickerServo.setPosition(kickerDownPos))
-                .transitionTimed(0.15)
+                .transitionTimed(0.2)
                 .state(KickerStates.Up3)
                 .onEnter(()->kickerServo.setPosition(kickerUpPos))
-                .transitionTimed(0.15)
+                .transitionTimed(0.2)
                 .state(KickerStates.Down3)
                 .onEnter(()->kickerServo.setPosition(kickerDownPos))
-                .transitionTimed(0.15, KickerStates.IDLE)
+                .transitionTimed(0.2, KickerStates.IDLE)
                 .build();
 
 
@@ -98,8 +102,7 @@ public class Teleop extends LinearOpMode {
 
         kickerMachine.start();
         while (opModeIsActive()) {
-            shooter.setPower(shooterPower);
-            transferMotor.setPower(transferPower);
+            transferMotor.setPower(1);
 
             if (gamepad1.b) {
                 intake.setPower(-intakePower);
@@ -107,6 +110,12 @@ public class Teleop extends LinearOpMode {
             }else{
                 intake.setPower(intakePower);
                 transferBootWheels.setPower(transferPowerBootWheels);
+            }
+            if (gamepad1.x) {
+                shooter.setVelocity(1500);
+            }
+            else {
+                shooter.setVelocity(1300);
             }
 
             double forwardPower = gamepad1.right_stick_x;
@@ -122,6 +131,10 @@ public class Teleop extends LinearOpMode {
             }
             moveBot(forwardPower, turnPower, strafePower);
             telemetry.addData("kickerMachine", kickerMachine.getStateEnum());
+            telemetry.addData("shooter Velo", shooter.getVelocity());
+            telemetry.addData("shooter Pos ", shooter.getCurrentPosition());
+
+
             telemetry.update();
             kickerMachine.update();
         }

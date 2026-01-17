@@ -19,7 +19,7 @@ import com.sfdev.assembly.state.StateMachineBuilder;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 @Autonomous
-public class AutoStateFactory9 extends LinearOpMode {
+public class AutoStateFactoryRED9 extends LinearOpMode {
     Servo kickerServo;
     DcMotorEx shooter;
     DcMotor intake;
@@ -81,7 +81,6 @@ public class AutoStateFactory9 extends LinearOpMode {
                 //red
                 isAllianceBlue = false;
             }
-            if (gamepad1.b){
             if (gamepad1.b){
                 //blue
                 isAllianceBlue=true;

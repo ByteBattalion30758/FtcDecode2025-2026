@@ -16,6 +16,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+
+
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 
@@ -30,12 +32,12 @@ public class Constants {
     public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);
     public static PinpointConstants localizerConstants = new PinpointConstants()
 // and/or:
-            .forwardPodY(4)
+            .forwardPodY(-2)
             .strafePodX(0)
             .distanceUnit(DistanceUnit.INCH)
             .hardwareMapName("pinpoint")
             .encoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD)
-            .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD)
+            .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED)
             .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD);
 
 
@@ -53,10 +55,10 @@ public class Constants {
             .maxPower(1)
             .xVelocity(79.50624096487451)
             .yVelocity(63.244663989450046)
-            .rightFrontMotorName("backright")
-            .rightRearMotorName("frontright")
-            .leftRearMotorName("frontleft")
-            .leftFrontMotorName("backleft")
+            .rightFrontMotorName("frontright")
+            .rightRearMotorName("backright")
+            .leftRearMotorName("backleft")
+            .leftFrontMotorName("frontleft")
             .leftFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
             .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE);
             //.rightFrontMotorDirection(DcMotorSimple.Direction.REVERSE);
