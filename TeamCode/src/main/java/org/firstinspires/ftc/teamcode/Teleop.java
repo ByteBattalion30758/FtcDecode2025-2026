@@ -16,7 +16,7 @@ import com.sfdev.assembly.state.StateMachineBuilder;
 @Configurable
 public class Teleop extends LinearOpMode {
     public DcMotor frontLeft, frontRight, backLeft, backRight;
-    public Servo kickerServo;
+    public Servo kickerServo1, kickerServo2;
     public DcMotorEx shooter, intake, transferMotor, transferBootWheels;
 
 
@@ -26,8 +26,8 @@ public class Teleop extends LinearOpMode {
 
     public static double transferPowerBootWheels = 1;
 
-    public static double kickerDownPos = 0.7;
-    public static double kickerUpPos = 0.4;
+    public static double kickerUpPos = 0.7;
+    public static double kickerDownPos = 0.4;
 
 
     enum KickerStates {
@@ -63,37 +63,75 @@ public class Teleop extends LinearOpMode {
         intake = hardwareMap.get(DcMotorEx.class, "intake");
         intake.setDirection(DcMotorSimple.Direction.REVERSE);
         transferMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        kickerServo = hardwareMap.get(Servo.class, "kicker");
+        kickerServo1 = hardwareMap.get(Servo.class, "kicker1");
+        kickerServo2 = hardwareMap.get(Servo.class, "kicker2");
         transferBootWheels = hardwareMap.get(DcMotorEx.class,"transferBootwheels");
 
         StateMachine kickerMachine = new StateMachineBuilder()
-                .state(KickerStates.IDLE)
-                .onEnter(()->kickerServo.setPosition(kickerDownPos))
+                .state(org.firstinspires.ftc.teamcode.AutoStateFactory9.KickerStates1.IDLE)
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerDownPos))
                 .transition(()->gamepad1.y)
-                .state(KickerStates.Up1)
-                .onEnter(()->{
-                    kickerServo.setPosition(kickerUpPos);
-                    kick=false;
+                .state(org.firstinspires.ftc.teamcode.AutoStateFactory9.KickerStates1.Up1)
+                .onEnter(() -> {
+                    kickerServo1.setPosition(Teleop.kickerUpPos);
+                    kick = false;
                 })
-                .transitionTimed(0.25)
-                .state(KickerStates.Down1)
-                .onEnter(()->kickerServo.setPosition(kickerDownPos))
-                .transitionTimed(0.2)
-                .state(KickerStates.Up2)
-                .onEnter(()->kickerServo.setPosition(kickerUpPos))
-                .transitionTimed(0.2)
-                .state(KickerStates.Down2)
-                .onEnter(()->kickerServo.setPosition(kickerDownPos))
-                .transitionTimed(0.2)
-                .state(KickerStates.Up3)
-                .onEnter(()->kickerServo.setPosition(kickerUpPos))
-                .transitionTimed(0.2)
-                .state(KickerStates.Down3)
-                .onEnter(()->kickerServo.setPosition(kickerDownPos))
-                .transitionTimed(0.2, KickerStates.IDLE)
+                .transitionTimed(0.4)
+                .state(org.firstinspires.ftc.teamcode.AutoStateFactory9.KickerStates1.Down1)
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerDownPos))
+                .transitionTimed(0.4)
+                .state(org.firstinspires.ftc.teamcode.AutoStateFactory9.KickerStates1.Up2)
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerUpPos))
+                .transitionTimed(0.4)
+                .state(org.firstinspires.ftc.teamcode.AutoStateFactory9.KickerStates1.Down2)
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerDownPos))
+                .transitionTimed(0.4)
+                .state(org.firstinspires.ftc.teamcode.AutoStateFactory9.KickerStates1.Up3)
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerUpPos))
+                .transitionTimed(0.4)
+                .state(org.firstinspires.ftc.teamcode.AutoStateFactory9.KickerStates1.Down3)
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerDownPos))
+                .transitionTimed(0.4)
+                .state(org.firstinspires.ftc.teamcode.AutoStateFactory9.KickerStates1.Up4)
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerUpPos))
+                .transitionTimed(0.4)
+                .state(org.firstinspires.ftc.teamcode.AutoStateFactory9.KickerStates1.Down4)
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerDownPos))
+                .transitionTimed(0.4, org.firstinspires.ftc.teamcode.AutoStateFactory9.KickerStates1.IDLE)
                 .build();
 
-
+        StateMachine kickerMachine2 = new StateMachineBuilder()
+                .state(org.firstinspires.ftc.teamcode.AutoStateFactory9.KickerStates2.IDLE)
+                .onEnter(() -> kickerServo2.setPosition(Teleop.kickerDownPos))
+                .transition(()->gamepad1.y)
+                .state(org.firstinspires.ftc.teamcode.AutoStateFactory9.KickerStates2.Up1)
+                .onEnter(() -> {
+                    kickerServo2.setPosition(Teleop.kickerUpPos);
+                    kick = false;
+                })
+                .transitionTimed(0.4)
+                .state(org.firstinspires.ftc.teamcode.AutoStateFactory9.KickerStates2.Down1)
+                .onEnter(() -> kickerServo2.setPosition(Teleop.kickerDownPos))
+                .transitionTimed(0.4)
+                .state(org.firstinspires.ftc.teamcode.AutoStateFactory9.KickerStates2.Up2)
+                .onEnter(() -> kickerServo2.setPosition(Teleop.kickerUpPos))
+                .transitionTimed(0.4)
+                .state(org.firstinspires.ftc.teamcode.AutoStateFactory9.KickerStates2.Down2)
+                .onEnter(() -> kickerServo2.setPosition(Teleop.kickerDownPos))
+                .transitionTimed(0.4)
+                .state(org.firstinspires.ftc.teamcode.AutoStateFactory9.KickerStates2.Up3)
+                .onEnter(() -> kickerServo2.setPosition(Teleop.kickerUpPos))
+                .transitionTimed(0.4)
+                .state(org.firstinspires.ftc.teamcode.AutoStateFactory9.KickerStates1.Down3)
+                .onEnter(() -> kickerServo2.setPosition(Teleop.kickerDownPos))
+                .transitionTimed(0.4)
+                .state(org.firstinspires.ftc.teamcode.AutoStateFactory9.KickerStates2.Up4)
+                .onEnter(() -> kickerServo2.setPosition(Teleop.kickerUpPos))
+                .transitionTimed(0.4)
+                .state(org.firstinspires.ftc.teamcode.AutoStateFactory9.KickerStates2.Down4)
+                .onEnter(() -> kickerServo2.setPosition(Teleop.kickerDownPos))
+                .transitionTimed(0.4, org.firstinspires.ftc.teamcode.AutoStateFactory9.KickerStates2.IDLE)
+                .build();
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -101,6 +139,7 @@ public class Teleop extends LinearOpMode {
         waitForStart();
 
         kickerMachine.start();
+        kickerMachine2.start();
         while (opModeIsActive()) {
             transferMotor.setPower(1);
 
@@ -137,6 +176,7 @@ public class Teleop extends LinearOpMode {
 
             telemetry.update();
             kickerMachine.update();
+            kickerMachine2.update();
         }
     }
     public void moveBot(double forwardPower, double turnPower, double strafePower) {
