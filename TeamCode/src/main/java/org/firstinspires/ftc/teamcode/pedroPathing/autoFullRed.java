@@ -189,3 +189,4 @@ public class autoFullRed extends LinearOpMode {
         backRight.setPower(forwardPower - turnPower - strafePower);
     }
 }
+
