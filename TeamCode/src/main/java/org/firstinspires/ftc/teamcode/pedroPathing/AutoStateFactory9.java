@@ -88,10 +88,12 @@ public class AutoStateFactory9 extends LinearOpMode {
         if (!isAllianceBlue) {
             startPose = new Pose(-startPose.getX(), startPose.getY(), Math.toRadians(180-Math.toDegrees(startPose.getHeading())));
             scorePose = new Pose(-scorePose.getX(), scorePose.getY(), Math.toRadians(180-Math.toDegrees(scorePose.getHeading())));
+            lastscorePose = new Pose(-lastscorePose.getX(), lastscorePose.getY(), Math.toRadians(180-Math.toDegrees(lastscorePose.getHeading())));
             intake2PoseAlignment = new Pose(-intake2PoseAlignment.getX(), intake2PoseAlignment.getY(), Math.toRadians(180-Math.toDegrees(intake2PoseAlignment.getHeading())));
             intake1Pose = new Pose(-intake1Pose.getX(), intake1Pose.getY(), Math.toRadians(180-Math.toDegrees(intake1Pose.getHeading())));
             intake2Pose = new Pose(-intake2Pose.getX(), intake2Pose.getY(), Math.toRadians(180-Math.toDegrees(intake2Pose.getHeading())));
             intake2PoseControlPoint = new Pose(-intake2PoseControlPoint.getX(), intake2PoseControlPoint.getY(), Math.toRadians(180-Math.toDegrees(intake2PoseControlPoint.getHeading())));
+            leave = new Pose(-leave.getX(), leave.getY(), Math.toRadians(180-Math.toDegrees(leave.getHeading())));
         }
         follower.setStartingPose(startPose);
 
