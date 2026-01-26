@@ -135,6 +135,7 @@ public class Autowroboplayers extends LinearOpMode {
             leave = new Pose(-leave.getX(), leave.getY(), Math.toRadians(180 - Math.toDegrees(leave.getHeading())));
             intake1openGateControlPoint= new Pose(-intake1openGateControlPoint.getX(), intake1openGateControlPoint.getY(), Math.toRadians(180-Math.toDegrees(intake1openGateControlPoint.getHeading())));
             openGate= new Pose(-openGate.getX(), openGate.getY(), Math.toRadians(180-Math.toDegrees(openGate.getHeading())));
+            intake2openGateControlPoint = new Pose(-intake2PoseControlPoint.getX(), intake2PoseControlPoint.getY(), Math.toRadians(180-Math.toDegrees(intake2PoseControlPoint.getHeading())));
 
         }
         follower.setStartingPose(startPose);
@@ -156,10 +157,6 @@ public class Autowroboplayers extends LinearOpMode {
                 .setLinearHeadingInterpolation(openGate.getHeading(), scorePose.getHeading())
                 .build();
 
-        //PathChain scoretoIntake2PoseAlignment = follower.pathBuilder().addPath(new BezierCurve(intake2PoseAlignment, intake2PoseControlPoint, intake2Pose))
-                //.addParametricCallback(0.05, () -> follower.setMaxPower(1))
-                //.setTangentHeadingInterpolation()
-                //.build();
         PathChain scoretoIntake2PoseAlignment = follower.pathBuilder().addPath(new BezierCurve(intake2PoseAlignment, intake2PoseControlPoint, intake2Pose))
                 .addParametricCallback(0.3, () -> follower.setMaxPower(1))
                 .setLinearHeadingInterpolation(intake2Pose.getHeading(), intake2PoseAlignment.getHeading(), intake2PoseControlPoint.getHeading())
