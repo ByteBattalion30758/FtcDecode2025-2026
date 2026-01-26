@@ -190,8 +190,8 @@ public class Teleop extends LinearOpMode {
             }
             moveBot(forwardPower, turnPower, strafePower);
             telemetry.addData("kickerMachine", kickerMachine1.getStateEnum());
-            telemetry.addData("shooter Velo", shooter.shooter.getVelocity());
-            telemetry.addData("shooter Pos ", shooter.shooter.getCurrentPosition());
+            //telemetry.addData("shooter Velo", shooter.shooter.getVelocity());
+            //telemetry.addData("shooter Pos ", shooter.shooter.getCurrentPosition());
 
 
             telemetry.update();
@@ -210,5 +210,4 @@ public class Teleop extends LinearOpMode {
         return shooter;
     }
 }
-
 
