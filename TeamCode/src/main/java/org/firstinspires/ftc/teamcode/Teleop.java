@@ -13,11 +13,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.sfdev.assembly.state.StateMachine;
 import com.sfdev.assembly.state.StateMachineBuilder;
-import org.firstinspires.ftc.teamcode.shooter;
 @TeleOp
 @Configurable
 public class Teleop extends LinearOpMode {
-    private shooter shooter;
+
+
     public DcMotor frontLeft, frontRight, backLeft, backRight;
     public Servo kickerServo1, kickerServo2;
     public DcMotorEx intake, transferMotor, transferBootWheels;
@@ -33,6 +33,8 @@ public class Teleop extends LinearOpMode {
 
     public static double kickerUpPos2= 0.7;
     public static double kickerDownPos = 0.4;
+
+
 
 
     enum KickerStates1 {
@@ -63,8 +65,7 @@ public class Teleop extends LinearOpMode {
     boolean end = false;
 
     public void runOpMode() {
-        this.shooter = new shooter();
-        shooter.init();
+
         telemetry = new JoinedTelemetry(telemetry, PanelsTelemetry.INSTANCE.getFtcTelemetry());
         frontLeft = hardwareMap.get(DcMotor.class, "frontleft");
         frontRight = hardwareMap.get(DcMotor.class, "frontright");
@@ -170,9 +171,6 @@ public class Teleop extends LinearOpMode {
                 intake.setPower(intakePower);
                 transferBootWheels.setPower(transferPowerBootWheels);
             }
-             if (gamepad1.a) {
-                 shooter.stopShooter();
-             }
 
 
             double forwardPower = gamepad1.right_stick_x;
@@ -207,71 +205,5 @@ public class Teleop extends LinearOpMode {
 
         }
 
-
-    public static class Shooter {
-
-        private DcMotorEx shooter;
-
-        VoltageSensor voltageSensor;
-
-
-        private double targetVelocity = 0.0;
-        private double currentVelocity = 0.0;
-
-        // --- Flywheel PIDF coefficients ---
-        public static double kP = 0.008;
-
-        public static double kS = 0.115; // Static feedforward
-        public static double kV = 0.00038; // Velocity feedforward
-
-        public static boolean enablePIDF = true;
-
-        public Shooter(HardwareMap hardwareMap) {
-            shooter = hardwareMap.get(DcMotorEx.class, "shooter");
-
-            shooter.setDirection(DcMotorEx.Direction.REVERSE);
-
-            voltageSensor = hardwareMap.voltageSensor.iterator().next();
-        }
-
-        public void setTargetVelocity(double target) {
-            targetVelocity = target;
-        }
-
-        public double getCurrentVelocity() {
-            return currentVelocity;
-        }
-
-        public void setDirectPower(double power) {
-            double voltage = voltageSensor.getVoltage();
-            if (voltage == 0) voltage = 12.0;
-
-            power = power * 12/voltage;
-            shooter.setPower(power);
-        }
-
-        public void update() {
-            // Measure velocity
-            currentVelocity = Math.abs(shooter.getVelocity());
-            double outputPower;
-
-            if (targetVelocity <= 0) {
-                outputPower = 0;
-            } else {
-                outputPower = kV*targetVelocity + kS;
-                if (enablePIDF){
-                    outputPower += kP * (targetVelocity - currentVelocity);
-                }
-            }
-
-            setDirectPower(outputPower);
-        }
-
-        public double getTargetVelocity() {
-            return targetVelocity;
-        }
     }
-
-
-}
 

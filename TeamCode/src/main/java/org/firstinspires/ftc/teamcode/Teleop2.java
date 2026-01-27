@@ -11,12 +11,11 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.sfdev.assembly.state.StateMachine;
 import com.sfdev.assembly.state.StateMachineBuilder;
-import org.firstinspires.ftc.teamcode.shooter;
+;
 
 @TeleOp
 @Configurable
 public class Teleop2 extends LinearOpMode {
-    private shooter shooter;
     public DcMotor frontLeft, frontRight, backLeft, backRight;
     public Servo kickerServo1, kickerServo2;
     public DcMotorEx intake, transferMotor, transferBootWheels;
@@ -62,8 +61,6 @@ public class Teleop2 extends LinearOpMode {
     boolean end = false;
 
     public void runOpMode() {
-        this.shooter = new shooter();
-        shooter.init();
         telemetry = new JoinedTelemetry(telemetry, PanelsTelemetry.INSTANCE.getFtcTelemetry());
         frontLeft = hardwareMap.get(DcMotor.class, "frontleft");
         frontRight = hardwareMap.get(DcMotor.class, "frontright");
@@ -161,7 +158,6 @@ public class Teleop2 extends LinearOpMode {
         kickerMachine2.start();
         while (opModeIsActive()) {
             transferMotor.setPower(1);
-            shooter.shooter.setVelocity(1300);
 
             if (gamepad1.b) {
                 intake.setPower(-intakePower);
@@ -170,12 +166,7 @@ public class Teleop2 extends LinearOpMode {
                 intake.setPower(intakePower);
                 transferBootWheels.setPower(transferPowerBootWheels);
             }
-            if (gamepad1.x) {
-                shooter.setShooterVelocity(1300);
-            }
-            if (gamepad1.a) {
-                shooter.stopShooter();
-            }
+
 
 
             double forwardPower = gamepad1.right_stick_x;
@@ -207,9 +198,7 @@ public class Teleop2 extends LinearOpMode {
         backRight.setPower(forwardPower - turnPower - strafePower);
 
     }
-    public shooter getShooter () {
-        return shooter;
     }
-}
+
 
 
