@@ -23,7 +23,6 @@ public class Teleop extends LinearOpMode {
     public DcMotorEx intake, transferMotor, transferBootWheels;
     Shooter shooter;
 
-
     public static double shooterVelocity = 1200;
     public static double intakePower = 1;
     public static double transferPower = 1;
@@ -157,7 +156,6 @@ public class Teleop extends LinearOpMode {
                 .build();
 
         telemetry.addData("Status", "Initialized");
-        shooter.update();
         telemetry.update();
 
         waitForStart();
@@ -196,6 +194,7 @@ public class Teleop extends LinearOpMode {
             telemetry.update();
             kickerMachine1.update();
             kickerMachine2.update();
+            shooter.update();
 
             // Measure velocity
         }
