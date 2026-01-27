@@ -8,6 +8,7 @@ import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.sfdev.assembly.state.StateMachine;
@@ -32,19 +33,6 @@ public class Teleop extends LinearOpMode {
 
     public static double kickerUpPos2= 0.7;
     public static double kickerDownPos = 0.4;
-
-    private double targetVelocity = 0.0;
-    private double currentVelocity = 0.0;
-
-    // --- Flywheel PIDF coefficients ---
-    public static double kP = 0.008;
-
-    public static double kS = 0.115; // Static feedforward
-    public static double kV = 0.00038; // Velocity feedforward
-
-    public static boolean enablePIDF = true;
-
-    VoltageSensor voltageSensor;
 
 
     enum KickerStates1 {
@@ -98,7 +86,6 @@ public class Teleop extends LinearOpMode {
         kickerServo1 = hardwareMap.get(Servo.class, "kicker1");
         kickerServo2 = hardwareMap.get(Servo.class, "kicker2");
         transferBootWheels = hardwareMap.get(DcMotorEx.class,"transferBootwheels");
-        voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
         StateMachine kickerMachine1 = new StateMachineBuilder()
                 .state(org.firstinspires.ftc.teamcode.Teleop.KickerStates1.IDLE)
@@ -210,7 +197,62 @@ public class Teleop extends LinearOpMode {
             kickerMachine2.update();
 
             // Measure velocity
-            currentVelocity = Math.abs(shooter.getCurrentVelocity());
+        }
+    }
+    public void moveBot(double forwardPower, double turnPower, double strafePower) {
+        frontLeft.setPower(forwardPower + turnPower + strafePower);
+        frontRight.setPower(forwardPower - turnPower + strafePower);
+        backLeft.setPower(forwardPower + turnPower - strafePower);
+        backRight.setPower(forwardPower - turnPower - strafePower);
+
+        }
+
+
+    public static class Shooter {
+
+        private DcMotorEx shooter;
+
+        VoltageSensor voltageSensor;
+
+
+        private double targetVelocity = 0.0;
+        private double currentVelocity = 0.0;
+
+        // --- Flywheel PIDF coefficients ---
+        public static double kP = 0.008;
+
+        public static double kS = 0.115; // Static feedforward
+        public static double kV = 0.00038; // Velocity feedforward
+
+        public static boolean enablePIDF = true;
+
+        public Shooter(HardwareMap hardwareMap) {
+            shooter = hardwareMap.get(DcMotorEx.class, "shooter");
+
+            shooter.setDirection(DcMotorEx.Direction.REVERSE);
+
+            voltageSensor = hardwareMap.voltageSensor.iterator().next();
+        }
+
+        public void setTargetVelocity(double target) {
+            targetVelocity = target;
+        }
+
+        public double getCurrentVelocity() {
+            return currentVelocity;
+        }
+
+        public void setDirectPower(double power) {
+            double voltage = voltageSensor.getVoltage();
+            if (voltage == 0) voltage = 12.0;
+
+            power = power * 12/voltage;
+            shooter.setPower(power);
+        }
+
+        public void update() {
+            // Measure velocity
+            currentVelocity = Math.abs(shooter.getVelocity());
             double outputPower;
 
             if (targetVelocity <= 0) {
@@ -224,31 +266,10 @@ public class Teleop extends LinearOpMode {
 
             setDirectPower(outputPower);
         }
-    }
-    public void moveBot(double forwardPower, double turnPower, double strafePower) {
-        frontLeft.setPower(forwardPower + turnPower + strafePower);
-        frontRight.setPower(forwardPower - turnPower + strafePower);
-        backLeft.setPower(forwardPower + turnPower - strafePower);
-        backRight.setPower(forwardPower - turnPower - strafePower);
 
+        public double getTargetVelocity() {
+            return targetVelocity;
         }
-    public void setTargetVelocity(double target) {
-        targetVelocity = target;
-    }
-
-    public double getCurrentVelocity() {
-        return currentVelocity;
-    }
-
-    public void setDirectPower(double power) {
-        double voltage = voltageSensor.getVoltage();
-        if (voltage == 0) voltage = 12.0;
-
-        power = power * 12/voltage;
-        shooter.setshooter(power);
-    }
-    public double getTargetVelocity() {
-        return targetVelocity;
     }
 
 
