@@ -38,6 +38,8 @@ public class Teleop extends LinearOpMode {
 
 
 
+
+
     enum KickerStates1 {
         IDLE,
 
@@ -188,7 +190,7 @@ public class Teleop extends LinearOpMode {
             }
             moveBot(forwardPower, turnPower, strafePower);
             telemetry.addData("kickerMachine", kickerMachine1.getStateEnum());
-            //telemetry.addData("shooter Velo", shooter.shooter.getVelocity());
+            telemetry.addData("shooter Velo", shooter.getCurrentVelocity());
             //telemetry.addData("shooter Pos ", shooter.shooter.getCurrentPosition());
 
 
