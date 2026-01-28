@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.sfdev.assembly.state.StateMachine;
 import com.sfdev.assembly.state.StateMachineBuilder;
+
 @TeleOp
 @Configurable
 public class Teleop extends LinearOpMode {
@@ -21,7 +22,7 @@ public class Teleop extends LinearOpMode {
     public DcMotor frontLeft, frontRight, backLeft, backRight;
     public Servo kickerServo1, kickerServo2;
     public DcMotorEx intake, transferMotor, transferBootWheels;
-    Shooter shooter;
+    public Shooter1 shooter;
 
     public static double shooterVelocity = 1200;
     public static double intakePower = 1;
@@ -79,7 +80,7 @@ public class Teleop extends LinearOpMode {
         frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        shooter = new Shooter(hardwareMap);
+        shooter = new Shooter1(hardwareMap);
 
         transferMotor = hardwareMap.get(DcMotorEx.class, "transfer");
         intake = hardwareMap.get(DcMotorEx.class, "intake");
