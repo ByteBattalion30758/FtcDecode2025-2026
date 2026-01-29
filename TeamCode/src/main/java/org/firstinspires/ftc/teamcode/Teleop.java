@@ -68,7 +68,6 @@ public class Teleop extends LinearOpMode {
     boolean end = false;
 
     public void runOpMode() {
-
         telemetry = new JoinedTelemetry(telemetry, PanelsTelemetry.INSTANCE.getFtcTelemetry());
         frontLeft = hardwareMap.get(DcMotor.class, "frontleft");
         frontRight = hardwareMap.get(DcMotor.class, "frontright");
@@ -181,7 +180,6 @@ public class Teleop extends LinearOpMode {
             double turnPower = -gamepad1.left_stick_y;
             double strafePower = gamepad1.left_stick_x;
 
-
             boolean sloweddown = gamepad1.right_bumper;
             if (sloweddown){
                 forwardPower /= 3;
@@ -189,26 +187,23 @@ public class Teleop extends LinearOpMode {
                 strafePower /= 3;
             }
             moveBot(forwardPower, turnPower, strafePower);
+            
             telemetry.addData("kickerMachine", kickerMachine1.getStateEnum());
+            shooter.update();
             telemetry.addData("shooter Velo", shooter.getCurrentVelocity());
-            //telemetry.addData("shooter Pos ", shooter.shooter.getCurrentPosition());
 
 
             telemetry.update();
             kickerMachine1.update();
             kickerMachine2.update();
-            shooter.update();
-
-            // Measure velocity
         }
     }
+    
     public void moveBot(double forwardPower, double turnPower, double strafePower) {
         frontLeft.setPower(forwardPower + turnPower + strafePower);
         frontRight.setPower(forwardPower - turnPower + strafePower);
         backLeft.setPower(forwardPower + turnPower - strafePower);
         backRight.setPower(forwardPower - turnPower - strafePower);
-
-        }
-
     }
+}
 
