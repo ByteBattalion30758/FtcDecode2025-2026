@@ -306,7 +306,7 @@ public class AutoStateFactory9 extends LinearOpMode {
             kickerMachine1.start();
             kickerMachine2.start();
             autoMachine.start();
-            shooter.setVelocity(1225);
+            shooter.setPower(0.68);
             intake.setPower(1);
 
             transferMotor.setPower(1);
@@ -320,7 +320,7 @@ public class AutoStateFactory9 extends LinearOpMode {
                 // Feedback to Driver Hub for debugging
                 telemetry.addData("Auto state", autoMachine.getStateEnum());
                 telemetry.addData("Kicker state", kickerMachine1.getStateEnum());
-                telemetry.addData("shooter Velo", shooter.getVelocity());
+                //telemetry.addData("shooter Velo", shooter.getVelocity());
 
                 telemetry.addData("x", follower.getPose().getX());
                 telemetry.addData("y", follower.getPose().getY());

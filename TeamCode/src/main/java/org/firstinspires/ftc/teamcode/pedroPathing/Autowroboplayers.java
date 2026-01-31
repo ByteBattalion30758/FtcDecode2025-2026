@@ -18,12 +18,17 @@ import com.sfdev.assembly.state.StateMachine;
 import com.sfdev.assembly.state.StateMachineBuilder;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
+
+
 @Autonomous
 public class Autowroboplayers extends LinearOpMode {
     Servo kickerServo1, kickerServo2;
-    DcMotorEx shooter;
     DcMotor intake;
     DcMotor transferMotor, transferBootWheels;
+
+    public Shooter1 shooter;
+
+    public static double shooterVelocity = 1200;
 
 
     private Follower follower;
@@ -97,7 +102,7 @@ public class Autowroboplayers extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         follower = Constants.createFollower(hardwareMap);
 
-        shooter = hardwareMap.get(DcMotorEx.class, "shooter");
+        shooter = new Shooter1(hardwareMap);
         transferMotor = hardwareMap.get(DcMotorEx.class, "transfer");
         intake = hardwareMap.get(DcMotorEx.class, "intake");
         intake.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -306,21 +311,22 @@ public class Autowroboplayers extends LinearOpMode {
         kickerMachine1.start();
         kickerMachine2.start();
         autoMachine.start();
-        shooter.setPower(0.67);
         intake.setPower(1);
 
         transferMotor.setPower(1);
         transferBootWheels.setPower(1);
 
         while (opModeIsActive() && !end) {
+            shooter.setTargetVelocity(shooterVelocity);
             follower.update();
             kickerMachine1.update();
             kickerMachine2.update();
             autoMachine.update();
             // Feedback to Driver Hub for debugging
             telemetry.addData("Auto state", autoMachine.getStateEnum());
+            shooter.update();
             telemetry.addData("Kicker state", kickerMachine1.getStateEnum());
-            telemetry.addData("shooter Velo", shooter.getVelocity());
+            telemetry.addData("shooter Velo", shooter.getCurrentVelocity());
 
             telemetry.addData("x", follower.getPose().getX());
             telemetry.addData("y", follower.getPose().getY());

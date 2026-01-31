@@ -325,6 +325,7 @@ public class AutoStateFactory10 extends LinearOpMode {
             autoMachine.update();
             // Feedback to Driver Hub for debugging
             telemetry.addData("Auto state", autoMachine.getStateEnum());
+            shooter.update();
             telemetry.addData("Kicker state", kickerMachine1.getStateEnum());
             //telemetry.addData("shooter Velo", shooter.getVelocity());
 
