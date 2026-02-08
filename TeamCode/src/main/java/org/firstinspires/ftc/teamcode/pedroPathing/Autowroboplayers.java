@@ -62,6 +62,8 @@ public class Autowroboplayers extends LinearOpMode {
         Up3, Down3,
 
         Up4, Down4,
+
+        Up5, Down5,
     }
 
     enum KickerStates2 {
@@ -74,6 +76,8 @@ public class Autowroboplayers extends LinearOpMode {
         Up3, Down3,
 
         Up4, Down4,
+
+        Up5,Down5,
     }
 
     enum AutoStates {
@@ -82,11 +86,15 @@ public class Autowroboplayers extends LinearOpMode {
         ShootPreload,
         Intake1stSpike,
         OpenGate,
+
+        OpenGate1Wait,
         MovetoShootspike1,
         ShootSpike1,
         MoveToSpike2,
         IntakeSpike2,
         OpenGate2,
+
+        OpenGate2Wait,
         MovetoShootspike2,
 
         ShootSpike2,
@@ -140,7 +148,7 @@ public class Autowroboplayers extends LinearOpMode {
             leave = new Pose(-leave.getX(), leave.getY(), Math.toRadians(180 - Math.toDegrees(leave.getHeading())));
             intake1openGateControlPoint= new Pose(-intake1openGateControlPoint.getX(), intake1openGateControlPoint.getY(), Math.toRadians(180-Math.toDegrees(intake1openGateControlPoint.getHeading())));
             openGate= new Pose(-openGate.getX(), openGate.getY(), Math.toRadians(180-Math.toDegrees(openGate.getHeading())));
-            intake2openGateControlPoint = new Pose(-intake2PoseControlPoint.getX(), intake2PoseControlPoint.getY(), Math.toRadians(180-Math.toDegrees(intake2PoseControlPoint.getHeading())));
+            intake2openGateControlPoint = new Pose(-intake2openGateControlPoint.getX(), intake2openGateControlPoint.getY(), Math.toRadians(180-Math.toDegrees(intake2openGateControlPoint.getHeading())));
 
         }
         follower.setStartingPose(startPose);
@@ -210,6 +218,14 @@ public class Autowroboplayers extends LinearOpMode {
                 .state(KickerStates1.Down4)
                 .onEnter(() -> kickerServo1.setPosition(Teleop.kickerDownPos))
                 .transitionTimed(0.4, KickerStates1.IDLE)
+                .state(KickerStates1.Up5)
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerUpPos))
+                .transitionTimed(0.4)
+                .state(KickerStates1.Down5)
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerDownPos))
+                .transitionTimed(0.4, KickerStates1.IDLE)
+
+
                 .build();
 
         StateMachine kickerMachine2 = new StateMachineBuilder()
@@ -243,7 +259,14 @@ public class Autowroboplayers extends LinearOpMode {
                 .state(KickerStates2.Down4)
                 .onEnter(() -> kickerServo2.setPosition(Teleop.kickerDownPos))
                 .transitionTimed(0.4, KickerStates2.IDLE)
+                .state(KickerStates2.Up5)
+                .onEnter(() -> kickerServo2.setPosition(Teleop.kickerUpPos2))
+                .transitionTimed(0.4)
+                .state(KickerStates2.Down5)
+                .onEnter(() -> kickerServo2.setPosition(Teleop.kickerDownPos))
+                .transitionTimed(0.4, KickerStates2.IDLE)
                 .build();
+
 
         StateMachine autoMachine = new StateMachineBuilder()
                 .state(AutoStates.AutoWait)
@@ -268,6 +291,9 @@ public class Autowroboplayers extends LinearOpMode {
                 .transition(() -> !follower.isBusy())
                 .transitionTimed(4.5)
 
+                .state(AutoStates.OpenGate1Wait)
+                .transitionTimed(1.5)
+
 
                 .state(AutoStates.MovetoShootspike1)
                 .onEnter(() -> follower.followPath(openGatetoScore1))
@@ -288,6 +314,9 @@ public class Autowroboplayers extends LinearOpMode {
                 .onEnter(() -> follower.followPath(intake2PosetoOpenGate))
                 .transition(() -> !follower.isBusy())
                 .transitionTimed(4.5)
+
+                .state(AutoStates.OpenGate2)
+                .transitionTimed(1.5)
 
                 .state(AutoStates.MovetoShootspike2)
                 .onEnter(() -> follower.followPath(opengateoscore2))

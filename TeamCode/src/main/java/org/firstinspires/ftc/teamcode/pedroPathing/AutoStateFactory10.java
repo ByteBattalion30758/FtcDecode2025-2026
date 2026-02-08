@@ -315,10 +315,10 @@ public class AutoStateFactory10 extends LinearOpMode {
 
         transferMotor.setPower(1);
         transferBootWheels.setPower(1);
+        shooter.setTargetVelocity(shooterVelocity);   
 
 
         while (opModeIsActive() && !end) {
-            shooter.setTargetVelocity(shooterVelocity);
             follower.update();
             kickerMachine1.update();
             kickerMachine2.update();
