@@ -28,7 +28,7 @@ public class Autowroboplayers extends LinearOpMode {
 
     public Shooter1 shooter;
 
-    public static double shooterVelocity = 1200;
+    public static double shooterVelocity = 1130;
 
 
     private Follower follower;

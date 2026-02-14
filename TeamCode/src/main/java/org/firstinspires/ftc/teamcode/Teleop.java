@@ -24,7 +24,7 @@ public class Teleop extends LinearOpMode {
     public DcMotorEx intake, transferMotor, transferBootWheels;
     public Shooter1 shooter;
 
-    public static double shooterVelocity = 1200;
+    public static double shooterVelocity = 1100;
     public static double intakePower = 1;
     public static double transferPower = 1;
 
@@ -82,6 +82,7 @@ public class Teleop extends LinearOpMode {
         backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         shooter = new Shooter1(hardwareMap);
+
 
         transferMotor = hardwareMap.get(DcMotorEx.class, "transfer");
         intake = hardwareMap.get(DcMotorEx.class, "intake");
@@ -189,11 +190,11 @@ public class Teleop extends LinearOpMode {
             moveBot(forwardPower, turnPower, strafePower);
             
             telemetry.addData("kickerMachine", kickerMachine1.getStateEnum());
-            shooter.update();
             telemetry.addData("shooter Velo", shooter.getCurrentVelocity());
 
 
             telemetry.update();
+            shooter.update();
             kickerMachine1.update();
             kickerMachine2.update();
         }
