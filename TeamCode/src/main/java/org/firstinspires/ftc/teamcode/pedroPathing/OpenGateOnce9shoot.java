@@ -175,7 +175,7 @@ public class OpenGateOnce9shoot extends LinearOpMode {
                 .addParametricCallback(0.1, () -> follower.setMaxPower(1))
                 .setLinearHeadingInterpolation(intake2Pose.getHeading(), intake2openGateControlPoint.getHeading(), openGate.getHeading())
                 .build();
-        PathChain opengateoscore2 = follower.pathBuilder().addPath(new BezierLine(openGate, lastscorePose))
+        PathChain opengateoscore2 = follower.pathBuilder().addPath(new BezierCurve(openGate, intake2PoseControlPoint, lastscorePose))
                 .addParametricCallback(0.05, () -> follower.setMaxPower(1))
                 .setLinearHeadingInterpolation(openGate.getHeading(), scorePose.getHeading())
                 .build();
