@@ -28,7 +28,7 @@ public class OpenGateOnce9shoot extends LinearOpMode {
 
     public Shooter1 shooter;
 
-    public static double shooterVelocity = 1100;
+    public static double shooterVelocity = 1190;
 
 
     private Follower follower;
@@ -46,7 +46,7 @@ public class OpenGateOnce9shoot extends LinearOpMode {
 
     private Pose openGate = new Pose(14,73, Math.toRadians(180));
     private Pose intake2Pose = new Pose(-4, 56, Math.toRadians(180));
-    private Pose intake2PoseControlPoint = new Pose(56, 53, Math.toRadians(180));
+    private Pose intake2PoseControlPoint = new Pose(56, 40, Math.toRadians(180));
 
     private Pose intake3PoseAlignment = new Pose(44, 35, Math.toRadians(180));
     private Pose intake3Pose = new Pose(6.5, 35, Math.toRadians(180));
@@ -175,7 +175,7 @@ public class OpenGateOnce9shoot extends LinearOpMode {
                 .addParametricCallback(0.1, () -> follower.setMaxPower(1))
                 .setLinearHeadingInterpolation(intake2Pose.getHeading(), intake2openGateControlPoint.getHeading(), openGate.getHeading())
                 .build();
-        PathChain opengateoscore2 = follower.pathBuilder().addPath(new BezierCurve(openGate, intake2PoseControlPoint, lastscorePose))
+        PathChain opengateoscore2 = follower.pathBuilder().addPath(new BezierCurve(intake2Pose, intake2PoseControlPoint, lastscorePose))
                 .addParametricCallback(0.05, () -> follower.setMaxPower(1))
                 .setLinearHeadingInterpolation(openGate.getHeading(), scorePose.getHeading())
                 .build();
@@ -186,40 +186,40 @@ public class OpenGateOnce9shoot extends LinearOpMode {
 
         StateMachine kickerMachine1 = new StateMachineBuilder()
                 .state(KickerStates1.IDLE)
-                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerDownPos))
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerUpPos))
                 .transition(() -> kick)
                 .state(KickerStates1.Up1)
                 .onEnter(() -> {
-                    kickerServo1.setPosition(Teleop.kickerUpPos);
+                    kickerServo1.setPosition(Teleop.kickerDownPos);
                     kick = false;
                 })
                 .transitionTimed(0.4)
                 .state(KickerStates1.Down1)
-                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerDownPos))
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerUpPos))
                 .transitionTimed(0.4)
                 .state(KickerStates1.Up2)
-                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerUpPos))
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerDownPos))
                 .transitionTimed(0.4)
                 .state(KickerStates1.Down2)
-                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerDownPos))
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerUpPos))
                 .transitionTimed(0.4)
                 .state(KickerStates1.Up3)
-                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerUpPos))
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerDownPos))
                 .transitionTimed(0.4)
                 .state(KickerStates1.Down3)
-                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerDownPos))
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerUpPos))
                 .transitionTimed(0.4)
                 .state(KickerStates1.Up4)
-                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerUpPos))
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerDownPos))
                 .transitionTimed(0.4)
                 .state(KickerStates1.Down4)
-                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerDownPos))
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerUpPos))
                 .transitionTimed(0.4, KickerStates1.IDLE)
                 .state(KickerStates1.Up5)
-                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerUpPos))
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerDownPos))
                 .transitionTimed(0.4)
                 .state(KickerStates1.Down5)
-                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerDownPos))
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerUpPos))
                 .transitionTimed(0.4, KickerStates1.IDLE)
 
 

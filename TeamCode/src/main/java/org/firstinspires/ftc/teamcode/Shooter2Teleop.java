@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 @Configurable
 
 
-public class Shooter1 {
+public class Shooter2Teleop {
 
     private DcMotorEx shooter;
 
@@ -22,11 +22,11 @@ public class Shooter1 {
     public static double kP = 0.002;
 
     public static double kS =  0.06; // Static feedforward
-    public static double kV = 0.00034; // Velocity feedforward
+    public static double kV = 0.00033; // Velocity feedforward
 
     public static boolean enablePIDF = true;
 
-    public Shooter1(HardwareMap hardwareMap) {
+    public Shooter2Teleop(HardwareMap hardwareMap) {
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
 
         //shooter.setDirection(DcMotorEx.Direction.REVERSE);

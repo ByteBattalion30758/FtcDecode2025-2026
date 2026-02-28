@@ -22,18 +22,18 @@ public class Teleop extends LinearOpMode {
     public DcMotor frontLeft, frontRight, backLeft, backRight;
     public Servo kickerServo1, kickerServo2;
     public DcMotorEx intake, transferMotor, transferBootWheels;
-    public Shooter1 shooter;
+    public Shooter2Teleop shooter;
 
-    public static double shooterVelocity = 1100;
+    public static double shooterVelocity = 1200;
     public static double intakePower = 1;
     public static double transferPower = 1;
 
     public static double transferPowerBootWheels = 1;
 
-    public static double kickerUpPos = 0.55;
+    public static double kickerUpPos = 0.8;
 
-    public static double kickerUpPos2= 0.7;
-    public static double kickerDownPos = 0.4;
+    public static double kickerUpPos2= 0.5;
+    public static double kickerDownPos = 0.38;
 
 
 
@@ -81,7 +81,7 @@ public class Teleop extends LinearOpMode {
         frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        shooter = new Shooter1(hardwareMap);
+        shooter = new Shooter2Teleop(hardwareMap);
 
 
         transferMotor = hardwareMap.get(DcMotorEx.class, "transfer");
@@ -94,34 +94,34 @@ public class Teleop extends LinearOpMode {
 
         StateMachine kickerMachine1 = new StateMachineBuilder()
                 .state(org.firstinspires.ftc.teamcode.Teleop.KickerStates1.IDLE)
-                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerDownPos))
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerUpPos))
                 .transition(()->gamepad1.y)
                 .state(org.firstinspires.ftc.teamcode.Teleop.KickerStates1.Up1)
                 .onEnter(() -> {
-                    kickerServo1.setPosition(Teleop.kickerUpPos);
+                    kickerServo1.setPosition(Teleop.kickerDownPos);
                     kick = false;
                 })
                 .transitionTimed(0.3)
                 .state(org.firstinspires.ftc.teamcode.Teleop.KickerStates1.Down1)
-                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerDownPos))
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerUpPos))
                 .transitionTimed(0.3)
                 .state(org.firstinspires.ftc.teamcode.Teleop.KickerStates1.Up2)
-                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerUpPos))
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerDownPos))
                 .transitionTimed(0.3)
                 .state(org.firstinspires.ftc.teamcode.Teleop.KickerStates1.Down2)
-                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerDownPos))
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerUpPos))
                 .transitionTimed(0.3)
                 .state(org.firstinspires.ftc.teamcode.Teleop.KickerStates1.Up3)
-                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerUpPos))
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerDownPos))
                 .transitionTimed(0.3)
                 .state(org.firstinspires.ftc.teamcode.Teleop.KickerStates1.Down3)
-                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerDownPos))
-                .transitionTimed(0.3)
-                .state(org.firstinspires.ftc.teamcode.Teleop.KickerStates1.Up4)
                 .onEnter(() -> kickerServo1.setPosition(Teleop.kickerUpPos))
                 .transitionTimed(0.3)
-                .state(org.firstinspires.ftc.teamcode.Teleop.KickerStates1.Down4)
+                .state(org.firstinspires.ftc.teamcode.Teleop.KickerStates1.Up4)
                 .onEnter(() -> kickerServo1.setPosition(Teleop.kickerDownPos))
+                .transitionTimed(0.3)
+                .state(org.firstinspires.ftc.teamcode.Teleop.KickerStates1.Down4)
+                .onEnter(() -> kickerServo1.setPosition(Teleop.kickerUpPos))
                 .transitionTimed(0.3, org.firstinspires.ftc.teamcode.Teleop.KickerStates1.IDLE)
                 .build();
 
